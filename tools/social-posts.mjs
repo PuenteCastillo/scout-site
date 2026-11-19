@@ -153,6 +153,50 @@ export const POSTS = [
         label: "BONUS", why: "Ratified in 1868, it covers both people born here and people who naturalize." },
     ],
   },
+  // Thanksgiving week (Nov 23-29) restyles of two earlier carousels: same questions as post8 and post6.
+  {
+    id: "post20", // Thanksgiving week quiz: U.S. holidays (was post8)
+    theme: "harvest",
+    end: { id: "score-3", sub: "Comment your score: 0, 1, 2 or 3 out of 3." },
+    cover: {
+      layout: "calendar", month: "NOVEMBER", weekday: "THURSDAY", day: "26", holiday: "Thanksgiving Day",
+      eyebrow: "THANKSGIVING WEEK QUIZ",
+      title: "Thanksgiving is on the citizenship test.",
+      sub: "So are other U.S. holidays. 3 real questions from the official list.",
+    },
+    questions: [
+      { n: 126, q: "Name three national U.S. holidays. Which of these is one?",
+        options: ["Halloween", "Valentine’s Day", "Thanksgiving Day", "St. Patrick’s Day"], right: 2,
+        why: "There are 11 federal holidays. On the test, you name any three, like Thanksgiving, Independence Day and Labor Day." },
+      { n: 125, q: "What is Independence Day?",
+        options: ["A holiday to honor workers", "A holiday to celebrate U.S. independence", "The day the Constitution was signed", "A holiday to honor soldiers who died in war"], right: 1,
+        why: "July 4th marks the adoption of the Declaration of Independence in 1776. It's the nation's birthday." },
+      { n: 127, q: "What is Memorial Day?",
+        options: ["The country’s birthday", "A holiday to honor workers", "A holiday to honor everyone who served", "A holiday to honor soldiers who died in military service"], right: 3,
+        label: "BONUS", why: "It's the last Monday in May. Veterans Day, in November, honors everyone who served." },
+    ],
+  },
+  {
+    id: "post21", // Family still in town: the 65/20 list (was post6)
+    theme: "harvest",
+    end: { id: "score-3", sub: "Comment your score: 0, 1, 2 or 3 out of 3." },
+    cover: {
+      layout: "recipe", photo: "family-table.jpg", focus: "center 30%", eyebrow: "THANKSGIVING WEEKEND",
+      title: "Family still in town?\nQuiz the grandparents.",
+      card: { title: "The 65/20 list", tag: "3 OF 20 INSIDE", lines: ["65 or older", "20+ years with a green card", "Just 20 questions to study"] },
+    },
+    questions: [
+      { n: 7, q: "How many amendments does the U.S. Constitution have?",
+        options: ["10", "21", "27", "33"], right: 2,
+        why: "The first 10 are the Bill of Rights. The 27th, about pay raises for Congress, was ratified in 1992." },
+      { n: 36, q: "The President of the United States is elected for how many years?",
+        options: ["2 years", "4 years", "6 years", "8 years"], right: 1,
+        why: "Presidential elections are every four years, in November. The winner takes office in January." },
+      { n: 86, q: "George Washington is famous for many things. Name one.",
+        options: ["Wrote the Declaration of Independence", "Freed the slaves", "16th president of the United States", "First president of the United States"], right: 3,
+        label: "BONUS", why: "He also led the Continental Army and is called the “Father of Our Country.”" },
+    ],
+  },
   // Bilingual posts (lang "es"): Spanish covers and labels; every question in the official English and Spanish
   // wording (scout-us-citizenship-test/src/data/questions.es.ts).
   {

@@ -195,6 +195,38 @@ COVERS.nametag = (c) => page(THEMES.harvest, `
     <div class="serif" style="height:96px;display:flex;align-items:center;justify-content:center;font-size:68px;color:#B9A58C">???</div>
     <div style="background:#DC2F34;height:22px"></div></div>`);
 
+// Navy page with a tear-off calendar page (c.month, c.day, c.weekday, c.holiday) above a serif title.
+COVERS.calendar = (c) => page(THEMES.harvest, `
+  <div class="layer" style="background:radial-gradient(circle at 50% 22%,#1D3B66,${NAVY} 62%)"></div>
+  <div class="layer" data-leaves="9" style="bottom:700px"></div>
+  <div style="position:absolute;left:320px;top:84px;width:440px;transform:rotate(3deg);border-radius:30px;overflow:hidden;background:#FFF8EF;box-shadow:0 30px 70px rgba(0,0,0,.45)">
+    <div style="background:#DC2F34;color:#fff;text-align:center;padding:30px 0 24px;font-weight:800;font-size:40px;letter-spacing:.2em;position:relative">${esc(c.month)}
+      <i style="position:absolute;left:96px;top:-16px;width:26px;height:50px;border-radius:13px;background:#FFF8EF;border:5px solid ${INK}"></i>
+      <i style="position:absolute;right:96px;top:-16px;width:26px;height:50px;border-radius:13px;background:#FFF8EF;border:5px solid ${INK}"></i></div>
+    <div style="text-align:center;font-size:27px;font-weight:800;letter-spacing:.2em;color:#62574A;margin-top:30px">${esc(c.weekday)}</div>
+    <div class="serif" style="text-align:center;font-size:250px;line-height:.98;color:${INK}">${esc(c.day)}</div>
+    <div style="margin:10px 34px 34px;border-radius:99px;background:#FDEBD9;color:#A34A00;text-align:center;padding:16px 0;font-size:31px;font-weight:700">${esc(c.holiday)}</div></div>
+  <div style="position:absolute;left:90px;right:90px;top:668px;color:#fff">${eyebrow(c.eyebrow, "#FFE3C4", "#E8772E")}
+    <h1 class="serif" style="font-size:${c.size || 84}px;margin-top:26px;color:#fff;line-height:1.05">${esc(c.title)}</h1>
+    <p style="font-size:35px;line-height:1.38;margin-top:24px;color:#C9D6EA;max-width:800px">${esc(c.sub)}</p></div>
+  <div style="position:absolute;left:90px;top:1196px">${swipe("#E8772E", "#fff")}</div>
+  <div style="position:absolute;right:24px;bottom:22px">${pair(280)}</div>`);
+
+// Family photo on top (no leaves: they would cross faces), cream page below with a recipe card (c.card = { title, tag, lines }).
+COVERS.recipe = (c) => page(THEMES.harvest, `
+  <div style="position:absolute;left:0;top:0;width:1080px;height:560px;overflow:hidden"><img class="fill" data-kb="1,1.08,-10,-6" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
+  <div style="position:absolute;left:0;right:0;top:500px;bottom:0;background:#FFF8EF;border-radius:56px 56px 0 0"></div>
+  <div style="position:absolute;left:90px;right:90px;top:566px">${eyebrow(c.eyebrow, "#A34A00", "#E8772E")}
+    <h1 class="serif" style="font-size:${c.size || 82}px;margin-top:24px;line-height:1.05;color:${INK}">${esc(c.title)}</h1></div>
+  <div style="position:absolute;left:90px;top:846px;width:590px;transform:rotate(-2deg);background:#fff;border-radius:18px;border:3px solid #E0C8A6;box-shadow:0 18px 40px rgba(90,40,0,.18);padding:22px 34px 20px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:4px solid #DC2F34;padding-bottom:12px">
+      <div class="serif" style="font-size:40px;color:${INK}">${esc(c.card.title)}</div>
+      <div style="font-size:21px;font-weight:800;letter-spacing:.14em;color:#A34A00">${esc(c.card.tag || "")}</div></div>
+    ${c.card.lines.map((l) => `<div style="display:flex;gap:16px;align-items:center;border-bottom:2px solid #CFE3F2;padding:13px 0;font-size:31px;font-weight:600;color:${INK}">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E8772E" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${esc(l)}</div>`).join("")}</div>
+  <div style="position:absolute;left:90px;top:1196px">${swipe("#E8772E", "#fff")}</div>
+  <div style="position:absolute;right:20px;bottom:22px">${pair(290)}</div>`);
+
 // ---------- End cards (videos) ----------
 function endcard(e) {
   const es = e.lang === "es";
