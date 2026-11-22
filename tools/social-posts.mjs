@@ -259,4 +259,25 @@ export const POSTS = [
           why: "El Gabinete reúne a los jefes de los departamentos federales, como el Secretario de Estado." } },
     ],
   },
+  {
+    id: "post22", // The flag: stripes, stars and the anthem
+    theme: "classic",
+    end: { id: "score-3-voice", sub: "Comment your score: 0, 1, 2 or 3 out of 3." },
+    cover: {
+      layout: "band", photo: "flag-porch.jpg", focus: "35% center", eyebrow: "FLAG QUIZ",
+      title: "Why does the flag have 13 stripes?",
+      sub: "3 real questions from the citizenship test. You get 3 seconds each.",
+    },
+    questions: [
+      { n: 121, q: "Why does the flag have 13 stripes?",
+        options: ["For the first 13 presidents", "Because there were 13 original colonies", "For the first 13 amendments", "For 13 battles of the Revolution"], right: 1,
+        why: "The 13 colonies declared independence in 1776. The flag has kept 13 stripes since 1818, no matter how many states joined." },
+      { n: 122, q: "Why does the flag have 50 stars?",
+        options: ["One star for each of 50 presidents", "For 50 years of independence", "One star for each state", "One star for each senator"], right: 2,
+        why: "The 50th star was added on July 4, 1960, after Hawaii became a state." },
+      { n: 123, q: "What is the name of the national anthem?",
+        options: ["The Star-Spangled Banner", "America the Beautiful", "God Bless America", "My Country, ’Tis of Thee"], right: 0,
+        label: "BONUS", why: "Francis Scott Key wrote the words in 1814 after seeing the flag still flying over Fort McHenry. It became the anthem in 1931." },
+    ],
+  },
 ];

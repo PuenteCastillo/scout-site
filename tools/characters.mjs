@@ -2,9 +2,10 @@
 // `charactersScript()` returns a <script> that defines scout(t, opts), turkey(t, opts) and leaves(t, n) in the page.
 // Each is a pure function of the time t in seconds, so a video is the same page drawn at t = 0, 1/30, 2/30…
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const APP = join(process.env.HOME, "Documents/cloudNomdas/Scout/scout-us-citizenship-test");
+const APP = join(dirname(fileURLToPath(import.meta.url)), "../../scout-us-citizenship-test");
 const png = (p) => "data:image/png;base64," + readFileSync(p).toString("base64");
 const PARTS = ["body", "head", "crest", "wingA", "wingB", "pupils", "brows", "lidL", "lidR"];
 

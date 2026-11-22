@@ -13,7 +13,7 @@ import { charactersScript } from "./characters.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const WebSocket = createRequire(join(process.env.HOME, "Documents/cloudNomdas/Scout/scout-us-citizenship-test/package.json"))("ws");
+const WebSocket = createRequire(join(ROOT, "../scout-us-citizenship-test/package.json"))("ws");
 const photo = (name) => `file://${join(ROOT, "tools/photos", name)}`;
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n/g, "<br>");
 const L = "ABCD", FPS = 30;

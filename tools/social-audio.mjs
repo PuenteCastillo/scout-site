@@ -23,6 +23,8 @@ export const AUDIO = {
     post17: { say: "La lista sesenta y cinco, veinte. Tres preguntas, en inglés y en español. ¡Juega con nosotros!", sfx: [{ text: "Soft autumn leaves rustling in a light breeze", seconds: 4, at: 0, gain: 0.3 }] },
     post18: { say: "Con un cafecito: tres preguntas sobre la ley y la Corte, en inglés y en español.", sfx: [{ text: "Coffee being poured into a ceramic mug, cozy morning", seconds: 2.5, at: 0, gain: 0.4 }] },
     post19: { say: "El presidente, en tres preguntas. Escucha cada una en inglés y en español.", sfx: [{ text: "Soft autumn leaves rustling in a light breeze", seconds: 4, at: 0, gain: 0.3 }] },
+    // Opens on the question itself: the first Reel averaged under 5 seconds watched, so the hook comes first.
+    post22: { say: "Why does the flag have thirteen stripes? Three questions. Three seconds each. Go!", sfx: [{ text: "A cloth flag flapping in a steady breeze, outdoors", seconds: 4, at: 0, gain: 0.3 }] },
   },
   end: {
     "score-3-es": { say: "¿Cuántas acertaste? Comenta tu puntaje y practica con Scout. El link está en la bio.", sfx: [{ text: "Small crowd cheering and clapping, happy, short", seconds: 2, at: 0, gain: 0.35 }] },
