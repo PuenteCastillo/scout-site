@@ -55,7 +55,7 @@ h1{font-family:${T.head},Inter,sans-serif;font-weight:${T.headWeight};letter-spa
 .btn{display:inline-flex;align-items:center;gap:22px;height:100px;padding:0 44px;border-radius:99px;font-size:36px;font-weight:700}
 </style>`;
 
-// Runs in the page: draws every moving part for time t. data-char, data-kb (Ken Burns zoom), data-leaves, data-pulse, data-hop.
+// Runs in the page: draws every moving part for time t. data-char, data-kb (Ken Burns zoom), data-leaves, data-pulse, data-hop, data-in, data-count.
 const frameScript = (dur) => `<script>
 window.DUR = ${dur};
 window.frame = async (t) => {
@@ -71,6 +71,15 @@ window.frame = async (t) => {
     const go = getComputedStyle(el.parentNode).color, p = left / think;
     el.textContent = Math.ceil(left) || "✓";
     el.style.background = "radial-gradient(closest-side, var(--ring-bg, #fff) 78%, transparent 80% 100%), conic-gradient(" + go + " " + p * 360 + "deg, rgba(128,128,128,.22) 0)";
+  }
+  // data-in="start": the element rises into place at that second. data-count="from,to,start,seconds": a number that counts.
+  for (const el of document.querySelectorAll("[data-in]")) {
+    const p = Math.max(0, Math.min(1, (t - +el.dataset.in) / 0.4)), e = 1 - (1 - p) ** 3;
+    el.style.opacity = e; el.style.transform = "translateY(" + 36 * (1 - e) + "px)";
+  }
+  for (const el of document.querySelectorAll("[data-count]")) {
+    const [from, to, start, len] = el.dataset.count.split(",").map(Number), p = Math.max(0, Math.min(1, (t - start) / len));
+    el.textContent = Math.round(from + (to - from) * (1 - (1 - p) ** 3));
   }
   for (const el of document.querySelectorAll("[data-pulse]")) el.style.transform = "scale(" + (1 + 0.035 * Math.max(0, Math.sin(t * Math.PI * 2 / 1.5))) + ")";
   for (const el of document.querySelectorAll("[data-hop]")) el.style.transform = "translateY(" + (-26 * Math.abs(Math.sin((t + +el.dataset.hop) * Math.PI))) + "px)";
@@ -394,7 +403,7 @@ async function video(c, html, out, seconds = 6) {
   rmSync(dir, { recursive: true, force: true });
 }
 
-export { chrome, still, video, COVERS, endcard, question, answer, menu, THEMES };
+export { chrome, still, video, COVERS, endcard, question, answer, menu, THEMES, page, char, eyebrow, esc, NAVY, INK };
 
 // ---------- Build ----------
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
