@@ -31,7 +31,7 @@ const THEMES = {
 const fonts = `<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=block" rel="stylesheet">`;
 const css = (T) => `<style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1080px;height:1350px;overflow:hidden}
+html,body{width:1080px;height:${MODE.tall ? 1920 : 1350}px;overflow:hidden}
 body{font-family:Inter,sans-serif;color:${T.ink};background:${T.bg};position:relative;-webkit-font-smoothing:antialiased}
 .pad{position:absolute;inset:120px 90px 0 90px}
 .top{display:flex;justify-content:space-between;align-items:center}
@@ -93,7 +93,7 @@ const char = (name, opts) => `<div data-char="${name}" data-opts='${JSON.stringi
 const pair = (size, mood = "wave", gap = -50) => `<div style="display:flex;align-items:flex-end">${char("scout", { size, mood })}<div style="margin-left:${gap}px">${char("turkey", { size: size * 0.93, mood })}</div></div>`;
 const footer = (T, next) => `<div class="foot"><div class="brand"><i class="dot"></i><b>Scout</b><span>${W("civics")}</span></div><div class="next">${esc(next)}&nbsp; →</div></div>`;
 /** Reels play straight through, so nothing says "swipe". */
-export const MODE = { reel: false, lang: "en" };
+export const MODE = { reel: false, lang: "en", tall: false }; // tall: 1080x1920 (9:16) pages for Reels; set it before chrome()
 const W = (k) => ({
   en: { civics: "U.S. Civics Test", answerIn: "Answer in", play: "Play along", swipe: "Swipe to start" },
   es: { civics: "Examen de civismo", answerIn: "Responde en", play: "Juega con nosotros", swipe: "Desliza para empezar" },
@@ -365,7 +365,7 @@ async function chrome() {
   const { sessionId } = await send("Target.attachToTarget", { targetId, flatten: true });
   const s = (m, p) => send(m, p, sessionId);
   await s("Page.enable");
-  await s("Emulation.setDeviceMetricsOverride", { width: 1080, height: 1350, deviceScaleFactor: 1, mobile: false });
+  await s("Emulation.setDeviceMetricsOverride", { width: 1080, height: MODE.tall ? 1920 : 1350, deviceScaleFactor: 1, mobile: false });
   const work = mkdtempSync(join(tmpdir(), "scout-slide-"));
   let count = 0;
   return {
