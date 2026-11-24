@@ -51,7 +51,7 @@ h1{font-family:${T.head},Inter,sans-serif;font-weight:${T.headWeight};letter-spa
 .why small{display:block;font-size:26px;font-weight:800;letter-spacing:.14em;color:${T.goText};margin-bottom:10px}
 .why p{font-size:31px;line-height:1.4}
 .fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.layer{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.layer{position:absolute;inset:${-MODE.stage}px 0 ${-below()}px 0;overflow:hidden;pointer-events:none}
 .btn{display:inline-flex;align-items:center;gap:22px;height:100px;padding:0 44px;border-radius:99px;font-size:36px;font-weight:700}
 </style>`;
 
@@ -87,13 +87,15 @@ window.frame = async (t) => {
 };
 </script>`;
 
+// With MODE.stage the 1080x1350 design sits that many px down a 1080x1920 page; .layer and the bottom panels bleed to its edges.
+const below = () => MODE.stage ? 1920 - 1350 - MODE.stage : 0;
 const page = (T, body, { dur = 6, bg } = {}) =>
-  `<!doctype html><meta charset=utf-8>${fonts}${css(T)}<body${bg ? ` style="background:${bg}"` : ""}>${body}${charactersScript()}${frameScript(dur)}</body>`;
+  `<!doctype html><meta charset=utf-8>${fonts}${css(T)}<body${bg ? ` style="background:${bg}"` : ""}>${MODE.stage ? `<div style="position:absolute;left:0;top:${MODE.stage}px;width:1080px;height:1350px">${body}</div>` : body}${charactersScript()}${frameScript(dur)}</body>`;
 const char = (name, opts) => `<div data-char="${name}" data-opts='${JSON.stringify(opts)}'></div>`;
 const pair = (size, mood = "wave", gap = -50) => `<div style="display:flex;align-items:flex-end">${char("scout", { size, mood })}<div style="margin-left:${gap}px">${char("turkey", { size: size * 0.93, mood })}</div></div>`;
 const footer = (T, next) => `<div class="foot"><div class="brand"><i class="dot"></i><b>Scout</b><span>${W("civics")}</span></div><div class="next">${esc(next)}&nbsp; →</div></div>`;
 /** Reels play straight through, so nothing says "swipe". */
-export const MODE = { reel: false, lang: "en", tall: false }; // tall: 1080x1920 (9:16) pages for Reels; set it before chrome()
+export const MODE = { reel: false, lang: "en", tall: false, stage: 0 }; // tall: 1080x1920 (9:16) pages for Reels; set it before chrome()
 const W = (k) => ({
   en: { civics: "U.S. Civics Test", answerIn: "Answer in", play: "Play along", swipe: "Swipe to start" },
   es: { civics: "Examen de civismo", answerIn: "Responde en", play: "Juega con nosotros", swipe: "Desliza para empezar" },
@@ -105,9 +107,9 @@ const eyebrow = (text, color, dot = "#06B4E0") => `<div style="display:flex;alig
 const COVERS = {
   // Photo across the top, navy panel below; Scout and the turkey stand on the seam.
   band: (c) => page(THEMES.classic, `
-    <div style="position:absolute;left:0;top:0;width:1080px;height:800px;overflow:hidden"><img class="fill" data-kb="1,1.08,-14,-8" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
+    <div style="position:absolute;left:0;top:${-MODE.stage}px;width:1080px;height:${800 + MODE.stage}px;overflow:hidden"><img class="fill" data-kb="1,1.08,-14,-8" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
     <div class="layer" data-leaves="9" style="bottom:600px"></div>
-    <div style="position:absolute;left:0;right:0;top:760px;bottom:0;background:${NAVY};border-radius:56px 56px 0 0"></div>
+    <div style="position:absolute;left:0;right:0;top:760px;bottom:${-below()}px;background:${NAVY};border-radius:56px 56px 0 0"></div>
     <div style="position:absolute;right:30px;top:418px">${pair(360)}</div>
     <div style="position:absolute;left:90px;right:90px;top:830px;color:#fff">${eyebrow(c.eyebrow || "U.S. CITIZENSHIP TEST", "#D5E2F2")}
       <h1 style="font-size:${c.size || 76}px;margin-top:30px;color:#fff;letter-spacing:-0.04em;line-height:1.08">${esc(c.title)}</h1>
@@ -157,7 +159,7 @@ const COVERS = {
 COVERS.sheet = (c) => page(THEMES.classic, `
   <div class="layer" style="bottom:420px"><img class="fill" data-kb="1,1.08,0,-12" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
   <div class="layer" data-leaves="7" style="bottom:600px"></div>
-  <div style="position:absolute;left:0;right:0;top:${c.sheetTop || 700}px;bottom:0;background:#fff;border-radius:60px 60px 0 0;box-shadow:0 -10px 40px rgba(16,32,74,.18)"></div>
+  <div style="position:absolute;left:0;right:0;top:${c.sheetTop || 700}px;bottom:${-below()}px;background:#fff;border-radius:60px 60px 0 0;box-shadow:0 -10px 40px rgba(16,32,74,.18)"></div>
   <div style="position:absolute;left:40px;top:${(c.sheetTop || 700) - 300}px">${pair(330)}</div>
   <div style="position:absolute;left:90px;right:90px;top:${(c.sheetTop || 700) + 70}px">${eyebrow(c.eyebrow || "U.S. CITIZENSHIP TEST", "#006F8F")}
     <h1 style="font-size:${c.size || 80}px;margin-top:26px;letter-spacing:-0.04em;line-height:1.06">${esc(c.title)}</h1>
@@ -223,8 +225,8 @@ COVERS.calendar = (c) => page(THEMES.harvest, `
 
 // Family photo on top (no leaves: they would cross faces), cream page below with a recipe card (c.card = { title, tag, lines }).
 COVERS.recipe = (c) => page(THEMES.harvest, `
-  <div style="position:absolute;left:0;top:0;width:1080px;height:560px;overflow:hidden"><img class="fill" data-kb="1,1.08,-10,-6" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
-  <div style="position:absolute;left:0;right:0;top:500px;bottom:0;background:#FFF8EF;border-radius:56px 56px 0 0"></div>
+  <div style="position:absolute;left:0;top:${-MODE.stage}px;width:1080px;height:${560 + MODE.stage}px;overflow:hidden"><img class="fill" data-kb="1,1.08,-10,-6" src="${photo(c.photo)}" style="object-position:${c.focus || "center"}"></div>
+  <div style="position:absolute;left:0;right:0;top:500px;bottom:${-below()}px;background:#FFF8EF;border-radius:56px 56px 0 0"></div>
   <div style="position:absolute;left:90px;right:90px;top:566px">${eyebrow(c.eyebrow, "#A34A00", "#E8772E")}
     <h1 class="serif" style="font-size:${c.size || 82}px;margin-top:24px;line-height:1.05;color:${INK}">${esc(c.title)}</h1></div>
   <div style="position:absolute;left:90px;top:846px;width:590px;transform:rotate(-2deg);background:#fff;border-radius:18px;border:3px solid #E0C8A6;box-shadow:0 18px 40px rgba(90,40,0,.18);padding:22px 34px 20px">
@@ -348,7 +350,9 @@ function menu(T, s) {
 // ---------- Chrome over the DevTools protocol ----------
 async function chrome() {
   const dir = mkdtempSync(join(tmpdir(), "scout-chrome-"));
-  const proc = spawn(CHROME, ["--headless=new", "--hide-scrollbars", "--remote-debugging-port=0", "--allow-file-access-from-files", `--user-data-dir=${dir}`, "about:blank"]);
+  const proc = spawn(CHROME, ["--headless=new", "--hide-scrollbars", "--remote-debugging-port=0", "--allow-file-access-from-files", `--user-data-dir=${dir}`,
+    // Without these, headless Chrome treats a tall page as a background window and stalls between frames.
+    `--window-size=1080,${MODE.tall ? 1920 : 1350}`, "--disable-renderer-backgrounding", "--disable-background-timer-throttling", "--disable-backgrounding-occluded-windows", "about:blank"]);
   const url = await new Promise((ok, no) => {
     let buf = ""; proc.stderr.on("data", (d) => { buf += d; const m = buf.match(/ws:\/\/\S+/); if (m) ok(m[0]); });
     setTimeout(() => no(new Error("Chrome didn't start")), 20000);

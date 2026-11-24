@@ -1,4 +1,4 @@
-// Turns a post from tools/social-posts.mjs into one continuous Reel with sound (1080x1350, 30 fps):
+// Turns a post from tools/social-posts.mjs into one continuous Reel with sound (1080x1920, 30 fps):
 // cover → each question (River reads it, then a 3-second countdown) → its answer (River reads only the right one) → end card.
 // Usage: node --env-file=../scout-us-citizenship-test/.env tools/make-reel.mjs [--music quiz|lofi|harvest] postId ...
 // Output: social/<postId>/reel.mp4. Voice, effects and music come from ElevenLabs via tools/eleven.mjs (cached).
@@ -22,7 +22,7 @@ const L = "ABCD";
 const spoken = (s) => s.replace(/\s*\([^)]*\)/g, "").replace(/[“”]/g, '"').trim();
 const ff = (...a) => execFileSync("ffmpeg", ["-loglevel", "error", "-y", ...a]);
 
-MODE.reel = true;
+MODE.reel = true; MODE.tall = true; MODE.stage = 200; // 9:16: the slide designs sit 200px down a 1080x1920 page, clear of the Instagram header and caption
 const bed = await music(AUDIO.music[pick], 60000);
 const fx = Object.fromEntries(await Promise.all(Object.entries(AUDIO.sfx).map(async ([k, v]) => [k, { file: await sfx(v.text, v.seconds), gain: v.gain }])));
 const c = await chrome();
